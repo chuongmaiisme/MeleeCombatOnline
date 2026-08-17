@@ -107,10 +107,19 @@ void AMCOCharacter_Player::HandleActionLook(const FInputActionValue& InputValue)
 void AMCOCharacter_Player::HandleActionMove(const FInputActionValue& InputValue)
 {
 	FVector2D InputValue_2D = InputValue.Get<FVector2D>();
+	
+	if (bClampMovementInput)
+	{
+		InputValue_2D = InputValue.Get<FVector2D>().GetClampedToMaxSize(1.f);
+	}
+	
+	
+	double MovementLength = InputValue_2D.Length();
+	UE_LOG(LogTemp, Warning, TEXT("Move Length: %f"), MovementLength);
 
-	UE_LOG(
-		LogTemp, Warning, TEXT("X: %f, Y: %f"),
-		InputValue_2D.X,
-		InputValue_2D.Y
-	);
+	// UE_LOG(
+	// 	LogTemp, Warning, TEXT("X: %f, Y: %f"),
+	// 	InputValue_2D.X,
+	// 	InputValue_2D.Y
+	// );
 }

@@ -53,4 +53,7 @@ private: // Property
 	
 	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
 	TObjectPtr<UInputAction> InputAction_Move;
+	
+	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
+	bool bClampMovementInput = true;
 };

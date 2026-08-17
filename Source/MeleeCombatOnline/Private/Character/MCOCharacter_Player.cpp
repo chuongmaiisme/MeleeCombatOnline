@@ -17,10 +17,10 @@ AMCOCharacter_Player::AMCOCharacter_Player()
 
 	CameraComp->SetupAttachment(SpringArmComp);
 	SpringArmComp->SetupAttachment(GetRootComponent());
-	
+
 	SpringArmComp->bUsePawnControlRotation = true;
 	CameraComp->bUsePawnControlRotation = false;
-	
+
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -81,6 +81,9 @@ void AMCOCharacter_Player::SetupPlayerInputComponent(class UInputComponent* Play
 
 	EnhancedInputComp->BindAction(InputAction_Look, ETriggerEvent::Triggered, this,
 	                              &AMCOCharacter_Player::HandleActionLook);
+
+	EnhancedInputComp->BindAction(InputAction_Move, ETriggerEvent::Triggered, this,
+	                              &AMCOCharacter_Player::HandleActionMove);
 }
 
 void AMCOCharacter_Player::HandleActionJump()
@@ -95,12 +98,19 @@ void AMCOCharacter_Player::HandleActionLook(const FInputActionValue& InputValue)
 	// vector 2
 	// vector 3
 	FVector2D InputValue_2D = InputValue.Get<FVector2D>();
+
+
+	AddControllerPitchInput(InputValue_2D.Y);
+	AddControllerYawInput(InputValue_2D.X);
+}
+
+void AMCOCharacter_Player::HandleActionMove(const FInputActionValue& InputValue)
+{
+	FVector2D InputValue_2D = InputValue.Get<FVector2D>();
+
 	UE_LOG(
 		LogTemp, Warning, TEXT("X: %f, Y: %f"),
 		InputValue_2D.X,
 		InputValue_2D.Y
 	);
-	
-	AddControllerPitchInput(InputValue_2D.Y);
-	AddControllerYawInput(InputValue_2D.X);
 }

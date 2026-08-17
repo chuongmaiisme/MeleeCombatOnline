@@ -30,6 +30,7 @@ private: // Method
 	void AddMappingContext();
 	void HandleActionJump();
 	void HandleActionLook(const FInputActionValue& InputValue);
+	void HandleActionMove(const FInputActionValue& InputValue);
 
 private: // Property
 	UPROPERTY(visibleDefaultsOnly)
@@ -49,4 +50,7 @@ private: // Property
 	
 	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
 	TObjectPtr<UInputAction> InputAction_Look;
+	
+	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
+	TObjectPtr<UInputAction> InputAction_Move;
 };

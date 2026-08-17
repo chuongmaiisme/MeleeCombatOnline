@@ -134,9 +134,13 @@ void AMCOCharacter_Player::HandleActionMove(const FInputActionValue& InputValue)
 	
 	// Y di toi lui
 	// X phai trai
-	FVector ForwardVector_Camera = CameraComp->GetForwardVector();
-	FVector RightVector_Camera = CameraComp->GetRightVector();
+	FVector RightDirection_Movement = CameraComp->GetRightVector().GetSafeNormal();
+	FVector ForwardDirection_Movement = FVector::CrossProduct(RightDirection_Movement, FVector::UpVector).GetSafeNormal();
+
+	// direction
+	AddMovementInput(RightDirection_Movement, InputValue_2D.X);
 	
-	AddMovementInput(ForwardVector_Camera, InputValue_2D.Y);
-	AddMovementInput(RightVector_Camera, InputValue_2D.X);
+	
+	// fix forwardvector cho toi
+	AddMovementInput(ForwardDirection_Movement, InputValue_2D.Y);
 }

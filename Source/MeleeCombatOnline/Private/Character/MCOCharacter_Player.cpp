@@ -117,9 +117,26 @@ void AMCOCharacter_Player::HandleActionMove(const FInputActionValue& InputValue)
 	double MovementLength = InputValue_2D.Length();
 	UE_LOG(LogTemp, Warning, TEXT("Move Length: %f"), MovementLength);
 
+	// GetCharacterMovement();
 	// UE_LOG(
 	// 	LogTemp, Warning, TEXT("X: %f, Y: %f"),
 	// 	InputValue_2D.X,
 	// 	InputValue_2D.Y
 	// );
+	
+	
+
+	
+	
+	// direction?
+	// movement length (vector2d length)
+	
+	
+	// Y di toi lui
+	// X phai trai
+	FVector ForwardVector_Camera = CameraComp->GetForwardVector();
+	FVector RightVector_Camera = CameraComp->GetRightVector();
+	
+	AddMovementInput(ForwardVector_Camera, InputValue_2D.Y);
+	AddMovementInput(RightVector_Camera, InputValue_2D.X);
 }

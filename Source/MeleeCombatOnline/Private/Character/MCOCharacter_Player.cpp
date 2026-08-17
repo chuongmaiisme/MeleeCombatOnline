@@ -17,6 +17,13 @@ AMCOCharacter_Player::AMCOCharacter_Player()
 
 	CameraComp->SetupAttachment(SpringArmComp);
 	SpringArmComp->SetupAttachment(GetRootComponent());
+	
+	SpringArmComp->bUsePawnControlRotation = true;
+	CameraComp->bUsePawnControlRotation = false;
+	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 }
 
 void AMCOCharacter_Player::PawnClientRestart()
@@ -32,14 +39,6 @@ void AMCOCharacter_Player::PawnClientRestart()
 	AddMappingContext();
 }
 
-void AMCOCharacter_Player::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	UEnhancedInputComponent* EnhancedInputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-
-	EnhancedInputComp->BindAction(InputAction_Jump, ETriggerEvent::Triggered, this, &AMCOCharacter_Player::HandleActionJump);
-}
 
 void AMCOCharacter_Player::AddMappingContext()
 {
@@ -71,8 +70,37 @@ void AMCOCharacter_Player::AddMappingContext()
 	EnhancedInputSubsystem->AddMappingContext(IMC_Default, 0);
 }
 
+void AMCOCharacter_Player::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	UEnhancedInputComponent* EnhancedInputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	EnhancedInputComp->BindAction(InputAction_Jump, ETriggerEvent::Triggered, this,
+	                              &AMCOCharacter_Player::HandleActionJump);
+
+	EnhancedInputComp->BindAction(InputAction_Look, ETriggerEvent::Triggered, this,
+	                              &AMCOCharacter_Player::HandleActionLook);
+}
+
 void AMCOCharacter_Player::HandleActionJump()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Handle Action Jump"));
 	Jump();
+}
+
+void AMCOCharacter_Player::HandleActionLook(const FInputActionValue& InputValue)
+{
+	// bool
+	// vector 2
+	// vector 3
+	FVector2D InputValue_2D = InputValue.Get<FVector2D>();
+	UE_LOG(
+		LogTemp, Warning, TEXT("X: %f, Y: %f"),
+		InputValue_2D.X,
+		InputValue_2D.Y
+	);
+	
+	AddControllerPitchInput(InputValue_2D.Y);
+	AddControllerYawInput(InputValue_2D.X);
 }

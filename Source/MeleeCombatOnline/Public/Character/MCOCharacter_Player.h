@@ -6,6 +6,7 @@
 #include "Character/MCOCharacter.h"
 #include "MCOCharacter_Player.generated.h"
 
+struct FInputActionValue;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -28,6 +29,7 @@ public:
 private: // Method
 	void AddMappingContext();
 	void HandleActionJump();
+	void HandleActionLook(const FInputActionValue& InputValue);
 
 private: // Property
 	UPROPERTY(visibleDefaultsOnly)
@@ -44,4 +46,7 @@ private: // Property
 
 	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
 	TObjectPtr<UInputAction> InputAction_Jump;
+	
+	UPROPERTY(EditDefaultsOnly, Category="MCO Settings | Input")
+	TObjectPtr<UInputAction> InputAction_Look;
 };

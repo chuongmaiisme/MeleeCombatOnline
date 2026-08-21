@@ -9,6 +9,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AMCOCharacter_Player::AMCOCharacter_Player()
 {
@@ -24,6 +25,9 @@ AMCOCharacter_Player::AMCOCharacter_Player()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+	
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate.Yaw = 666.f;
 }
 
 void AMCOCharacter_Player::PawnClientRestart()
